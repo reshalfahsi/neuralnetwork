@@ -1,8 +1,8 @@
 #include <iostream>
 
 /* TESTING */
-#include <ann.hpp>
-#include <csvreader.hpp>
+#include "../ann/ann.hpp"
+#include "../ann/csvreader.hpp"
 
 #define TEST 100.0
 #define TRAINING 10.0
@@ -23,11 +23,11 @@
 void coba_ann(bool isTrain=true){
 
 #ifndef DUMMY
-    std::string csv_path = std::string("mnist_test.csv");
-    std::string weight_path = std::string("saved_weight/weight.dat");
+    std::string csv_path = std::string("mnist/mnist_test.csv");
+    std::string weight_path = std::string("mnist/saved_weight/weight.dat");
 #else
-    std::string csv_path = std::string("mnist_dummy.csv");
-    std::string weight_path = std::string("saved_weight/weight_dummy.dat");
+    std::string csv_path = std::string("mnist/mnist_dummy.csv");
+    std::string weight_path = std::string("mnist/saved_weight/weight_dummy.dat");
 
     //std::string csv_path = std::string("mnist_dummy_10.csv");
     //std::string weight_path = std::string("saved_weight/weight_dummy_10.dat");
@@ -36,6 +36,7 @@ void coba_ann(bool isTrain=true){
     Data X,Y;
     CSVReader train_data(csv_path);
     auto datalist = train_data.getData();
+    //std::cout << "DEBUGGING: " << datalist.size() << std::endl;
 
     for(auto vec : datalist)
     {
@@ -151,7 +152,11 @@ void coba_ann(bool isTrain=true){
             std::uniform_int_distribution<int> rgen(0,X.size()-1);
             int idx = rgen(rd);
 
+	    //std::cout << "DEBUGGING: " << X.size() << std::endl;	    
+		
             std::vector<double> x = X[idx],y_test = Y[idx];
+
+	    //std::cout << "DEBUGGING" << std::endl;
 
             auto y = myNetwork.predict(x);
             int pred = 0;

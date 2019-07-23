@@ -1,5 +1,5 @@
-#include <ann.hpp>
-#include <csvreader.hpp>
+#include "../ann/ann.hpp"
+#include "../ann/csvreader.hpp"
 
 #include <map>
 
@@ -19,8 +19,8 @@ void house_price(bool isTrain=true){
 
     std::map<std::string,int> features;
 
-    std::string csv_path = std::string("houseprice.csv");
-    std::string weight_path = std::string("saved_weight/weight.dat");
+    std::string csv_path = std::string("houseprice/houseprice.csv");
+    std::string weight_path = std::string("houseprice/saved_weight/weight.dat");
 
     Data X,Y;
     CSVReader train_data(csv_path);
