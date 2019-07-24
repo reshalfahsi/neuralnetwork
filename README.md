@@ -21,3 +21,5 @@ Artificial Neural Network or simply ANN is one of bio-inspired algorithm that mi
 ## How ANN Works?
 
 So, how does ANN work?
+
+![alt text](neuron_ann.png)
