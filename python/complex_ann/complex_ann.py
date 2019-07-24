@@ -1,7 +1,5 @@
 import numpy as np
-import pandas as pd
 import scipy.special
-import matplotlib.pyplot
 
 # Side Notes: Open Problem indicate we want make Neural Network architecture that look like tensorflow/keras instead of Tariq Rashid's
 
