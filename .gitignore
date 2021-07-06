@@ -1,1 +1,10 @@
-.gdb_history
+build
+.vscode/
+*html
+*xml
+*tex
+include/doctest.h
+include/nanobench.h
+*/__pycache__
+dockcross-*
+.ipynb_checkpoints
