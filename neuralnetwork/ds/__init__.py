@@ -10,3 +10,32 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 # ==============================================================================
+
+
+import random
+
+
+def get_loader(dataset, batch_size):
+    total_size = len(dataset)
+    print("Size", total_size)
+    index_generator = shuffle_iterator(range(total_size))
+    while True:
+        data = []
+        for _ in range(batch_size):
+            idx = next(index_generator)
+            data.append(dataset[idx])
+        yield dataset._collate_fn(data)
+
+
+def shuffle_iterator(iterator):
+    # iterator should have limited size
+    index = list(iterator)
+    total_size = len(index)
+    i = 0
+    random.shuffle(index)
+    while True:
+        yield index[i]
+        i += 1
+        if i >= total_size:
+            i = 0
+            random.shuffle(index)
