@@ -58,13 +58,13 @@ class NeuralNetwork(nn.Module):
                                                                #  b_grad  *
                                                                #         / \
                                                                #        |   |
-        self.dx2 = self.linear2.grad(grad=self.dx1* self.dx0)  #   A_grad   x_grad
+        self.dx2 = self.linear2.grad(self.dx1* self.dx0)       #   A_grad   x_grad
                                                                #          .
         self.dx3 = self.sigmoid.grad(self.out2)                #          .
-        self.dx4 = self.linear1.grad(grad=self.dx3 * self.dx2) #          .
+        self.dx4 = self.linear1.grad(self.dx3 * self.dx2)      #          .
 
         self.dx5 = self.sigmoid.grad(self.out0)
-        self.dx6 = self.linear0.grad(grad=self.dx5 * self.dx4)
+        self.dx6 = self.linear0.grad(self.dx5 * self.dx4)
 
         self.linear0.update(lr)
         self.linear1.update(lr)
@@ -118,12 +118,11 @@ print("Training finished in {} epochs".format(epoch))
 """## **Testing**"""
 
 import random
-from IPython.display import display
 
 index = random.randint(0, len(test_dataset))
 
 x, y = test_dataset[index]
-display(x.resize((140, 140)))
+x.resize((140, 140)).show()
 x = np.array(x)
 L = x.shape[0] * x.shape[1]
 x = x.reshape(1, L)/255.

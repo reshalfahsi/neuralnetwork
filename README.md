@@ -12,6 +12,8 @@ pip install .
 
 ## Quick Demo
 
+Here is a short example of the usage of `neuralnetwork` components. For the complete demo, please take a look at [`examples/neuralnetwork.py`](https://github.com/reshalfahsi/neuralnetwork/blob/main/examples/neuralnetwork.py) and [`notebook/NeuralNetwork.ipynb`](https://github.com/reshalfahsi/neuralnetwork/blob/main/notebook/NeuralNetwork.ipynb).
+
 ```python
 import neuralnetwork.nn as nn
 import numpy as np

@@ -30,16 +30,15 @@ class Linear(Module):
             return self.x.dot(self.A) + self.b
         return self.x.dot(self.A)
 
-    def grad(self, **kwargs):
+    def grad(self, gradient):
 
         name_gradient_A = "grad_A"
         name_gradient_b = "grad_b"
 
-        dx = kwargs["grad"]
-        gradient_A = self.x.T.dot(dx)
+        gradient_A = self.x.T.dot(gradient)
         if self.bias:
-            gradient_b = dx.mean(axis=0, keepdims=True)
-        gradient_x = dx.dot(self.A.T)
+            gradient_b = gradient.mean(axis=0, keepdims=True)
+        gradient_x = gradient.dot(self.A.T)
 
         setattr(self, name_gradient_A, gradient_A)
         if self.bias:
