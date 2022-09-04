@@ -28,4 +28,4 @@ class MSELoss(Module):
         return self.loss
 
     def grad(self):
-        return 2 * (self.target - self.input)
+        return -2 * (self.target - self.input)
