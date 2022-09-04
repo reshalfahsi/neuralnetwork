@@ -46,6 +46,6 @@ class Linear(Module):
         return gradient_x
 
     def update(self, lr):
-        self.A += lr * self.grad_A
+        self.A -= lr * self.grad_A
         if self.bias:
-            self.b += lr * self.grad_b
+            self.b -= lr * self.grad_b
