@@ -13,8 +13,8 @@ from neuralnetwork import ds
 import numpy as np
 
 
-train_dataset = PneumoniaMNIST(split='train', download=True)
-test_dataset = PneumoniaMNIST(split='test', download=True)
+train_dataset = PneumoniaMNIST(split="train", download=True)
+test_dataset = PneumoniaMNIST(split="test", download=True)
 
 print("Train Dataset:", len(train_dataset))
 print("Test Dataset", len(test_dataset))
@@ -44,24 +44,24 @@ class NeuralNetwork(nn.Module):
         self.out5 = self.sigmoid(self.out4)
 
         return self.out5
-    
+
     def backward(self, lr, criterion):
-                                                               # Computational Graph
-                                                               #
-        self.dx0 = criterion.grad()                            # loss_grad(pred, y)
-                                                               #        |
-        self.dx1 = self.sigmoid.grad(self.out4)                # sigmoid_grad(pred)
-                                                               #        |
-                                                               #        +
-                                                               #       / \
-                                                               #      |   |
-                                                               #  b_grad  *
-                                                               #         / \
-                                                               #        |   |
-        self.dx2 = self.linear2.grad(self.dx1* self.dx0)       #   A_grad   x_grad
-                                                               #          .
-        self.dx3 = self.sigmoid.grad(self.out2)                #          .
-        self.dx4 = self.linear1.grad(self.dx3 * self.dx2)      #          .
+        # Computational Graph
+        #
+        self.dx0 = criterion.grad()  # loss_grad(pred, y)
+        #        |
+        self.dx1 = self.sigmoid.grad(self.out4)  # sigmoid_grad(pred)
+        #        |
+        #        +
+        #       / \
+        #      |   |
+        #  b_grad  *
+        #         / \
+        #        |   |
+        self.dx2 = self.linear2.grad(self.dx1 * self.dx0)  #   A_grad   x_grad
+        #          .
+        self.dx3 = self.sigmoid.grad(self.out2)  #          .
+        self.dx4 = self.linear1.grad(self.dx3 * self.dx2)  #          .
 
         self.dx5 = self.sigmoid.grad(self.out0)
         self.dx6 = self.linear0.grad(self.dx5 * self.dx4)
@@ -70,7 +70,9 @@ class NeuralNetwork(nn.Module):
         self.linear1.update(lr)
         self.linear2.update(lr)
 
+
 """## **Training**"""
+
 
 def accuracy(model, X, Y):
     pred = model(X)
@@ -78,6 +80,7 @@ def accuracy(model, X, Y):
     acc = np.sum(pred == Y)
     acc = acc / Y.shape[0]
     return acc
+
 
 train_loader = ds.get_loader(dataset=train_dataset, batch_size=BATCH_SIZE)
 test_loader = ds.get_loader(dataset=test_dataset, batch_size=1)
@@ -125,11 +128,11 @@ x, y = test_dataset[index]
 x.resize((140, 140)).show()
 x = np.array(x)
 L = x.shape[0] * x.shape[1]
-x = x.reshape(1, L)/255.
+x = x.reshape(1, L) / 255.0
 pred = model(x)
 
 pred = pred.squeeze(0)
-pred[pred>=0.5] = 1
-pred[pred<0.5] = 0
+pred[pred >= 0.5] = 1
+pred[pred < 0.5] = 0
 print("Prediction: Pneumonia" if pred[0] else "Prediction: Healthy")
 print("Ground Truth: Pneumonia" if y[0] else "Ground Truth: Healthy")
