@@ -21,7 +21,8 @@ class Sigmoid(Module):
         super(Sigmoid, self).__init__()
 
     def forward(self, input):
-        return 1.0 / (1.0 + np.exp(-input))
+        return 1. / (1. + np.exp(-input))
 
-    def grad(self, x):
-        return self(x) * (1.0 - self(x))
+    def grad(self, x, orde="jacobian"):
+        assert orde in self._valid_orde, f"Invalid orde: {orde}, expected 'jacobian' or 'hessian'"
+        return self(x) * (1. - self(x)) if orde == "jacobian" else self(x) * (1. - self(x)) * (1. - 2. * self(x))

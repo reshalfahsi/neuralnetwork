@@ -27,5 +27,6 @@ class MSELoss(Module):
         self.loss = res.mean()
         return self.loss
 
-    def grad(self):
-        return -2 * (self.target - self.input)
+    def grad(self, orde="jacobian"):
+        assert orde in self._valid_orde, f"Invalid orde: {orde}, expected 'jacobian' or 'hessian'"
+        return -2 * (self.target - self.input) if orde == 'jacobian' else 2.
