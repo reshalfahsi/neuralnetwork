@@ -19,10 +19,10 @@ from .base import Module
 class Linear(Module):
     def __init__(self, in_features, out_features, bias=True, dtype=np.float64):
         super(Linear, self).__init__()
-        self.A = np.random.randn(in_features, out_features).astype(dtype)
+        self.A = np.random.randn(1, in_features, out_features).astype(dtype)
         self.bias = bias
         if self.bias:
-            self.b = np.random.randn(1, out_features).astype(dtype)
+            self.b = np.random.randn(1, 1, out_features).astype(dtype)
 
     def forward(self, x):
         self.x = x
