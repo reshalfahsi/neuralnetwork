@@ -92,4 +92,4 @@ class Linear(Module):
 
         self.A -= lr * self.grad_A/denum_A
         if self.bias:
-            self.b -= lr * self.grad_b/denum_B
+            self.b -= lr * self.grad_b/denum_b
