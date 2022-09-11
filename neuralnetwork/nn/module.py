@@ -46,10 +46,10 @@ class Linear(Module):
             if self.bias:
                 name_gradient_b = "grad_b"
 
-            gradient_A = self.x.T.dot(gradient)
+            gradient_A = np.transpose(self.x, (0, 2, 1)).dot(gradient)
             if self.bias:
                 gradient_b = gradient.mean(axis=0, keepdims=True)
-            gradient_x = gradient.dot(self.A.T)
+            gradient_x = gradient.dot(np.transpose(self.A, (0, 2, 1)))
 
         else:
             name_gradient_A = "grad2_A"
@@ -61,12 +61,12 @@ class Linear(Module):
             _nonlinearity_first = gradient['nonlinearity_first']
             _nonlinearity_second = gradient['nonlinearity_second']
 
-            gradient_A = self.x.T.dot(_nonlinearity_first * _error_second) * self.x.T.dot(_nonlinearity_first)
-            gradient_A = gradient_A + (self.x * self.x).T.dot(_error_first * _nonlinearity_second) 
+            gradient_A = np.transpose(self.x, (0, 2, 1)).dot(_nonlinearity_first * _error_second) * np.transpose(self.x, (0, 2, 1)).dot(_nonlinearity_first)
+            gradient_A = gradient_A + np.transpose((self.x * self.x),(0, 2, 1)).dot(_error_first * _nonlinearity_second) 
             if self.bias:
                 gradient_b = (_error_second * np.square(_nonlinearity_first) + _error_first * _nonlinearity_second).mean(axis=0, keepdims=True)
-            gradient_x = (_error_second * _nonlinearity_first).dot(self.A.T) * _nonlinearity_first.dot(self.A.T)
-            gradient_x = gradient_x + (_error_first * _nonlinearity_second).dot(np.square(self.A).T)
+            gradient_x = (_error_second * _nonlinearity_first).dot(np.transpose(self.A, (0, 2, 1))) * _nonlinearity_first.dot(np.transpose(self.A, (0, 2, 1)))
+            gradient_x = gradient_x + (_error_first * _nonlinearity_second).dot(np.transpose(np.square(self.A), (0, 2, 1)))
 
         setattr(self, name_gradient_A, gradient_A)
         if self.bias:
@@ -90,7 +90,7 @@ class Linear(Module):
             if self.bias:
                 denum_b = self.grad2_b
             lr = 1.
-            epsilon = 1e-4
+            epsilon = 1e-8
 
         self.A -= lr * self.grad_A/(denum_A + epsilon)
         if self.bias:
