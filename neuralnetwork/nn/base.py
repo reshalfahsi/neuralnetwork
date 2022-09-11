@@ -15,7 +15,7 @@
 class Module(object):
     def __init__(self, *args, **kwargs):
         self.__dict__ = kwargs
-        self._valid_orde = ["jacobian", "hessian"]
+        self._valid_order = ["jacobian", "hessian"]
         self._valid_optimizer = ["gradient_descent", "newton"]
 
     def __call__(self, *args, **kwargs):

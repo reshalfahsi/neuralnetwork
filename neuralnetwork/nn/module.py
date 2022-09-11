@@ -30,10 +30,10 @@ class Linear(Module):
             return np.matmul(self.x, self.A) + self.b
         return np.matmul(self.x, self.A)
 
-    def grad(self, gradient, orde="jacobian"):
+    def grad(self, gradient, order="jacobian"):
         assert (
-            orde in self._valid_orde
-        ), f"Invalid orde: {orde}, expected 'jacobian' or 'hessian'"
+            order in self._valid_order
+        ), f"Invalid order: {order}, expected 'jacobian' or 'hessian'"
 
         name_gradient_A = None
         if self.bias:
@@ -43,7 +43,7 @@ class Linear(Module):
         if self.bias:
             gradient_b = None
 
-        if orde == "jacobian":
+        if order == "jacobian":
             name_gradient_A = "grad_A"
             if self.bias:
                 name_gradient_b = "grad_b"
