@@ -79,6 +79,7 @@ class Linear(Module):
         denum_A = 1.
         if self.bias:
             denum_b = 1.
+        epsilon = 0
 
         if isinstance(method, str):
             assert method in self._valid_optimizer, f"Invalid optimizer: {method}, expected: 'gradient_descent' or 'newton'"
@@ -89,7 +90,8 @@ class Linear(Module):
             if self.bias:
                 denum_b = self.grad2_b
             lr = 1.
+            epsilon = 1e-4
 
-        self.A -= lr * self.grad_A/denum_A
+        self.A -= lr * self.grad_A/(denum_A + epsilon)
         if self.bias:
-            self.b -= lr * self.grad_b/denum_b
+            self.b -= lr * self.grad_b/(denum_b + epsilon)
