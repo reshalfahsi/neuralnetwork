@@ -105,12 +105,12 @@ class Linear(Module):
             assert (
                 "grad2_A" in self.__dict__
             ), "Second order derivative has not been calculated yet."
-            denum_A = self.grad2_A
+            denum_A = self.grad2_A.mean(axis=0, keepdims=True)
             if self.bias:
-                denum_b = self.grad2_b
+                denum_b = self.grad2_b.mean(axis=0, keepdims=True)
             lr = 1.0
             epsilon = 1e-8
 
-        self.A -= lr * self.grad_A / (denum_A + epsilon)
+        self.A -= lr * self.grad_A.mean(axis=0, keepdims=True) / (denum_A + epsilon)
         if self.bias:
-            self.b -= lr * self.grad_b / (denum_b + epsilon)
+            self.b -= lr * self.grad_b.mean(axis=0, keepdims=True) / (denum_b + epsilon)
