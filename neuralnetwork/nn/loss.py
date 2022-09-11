@@ -20,7 +20,7 @@ class MSELoss(Module):
         super(MSELoss, self).__init__()
 
     def forward(self, input, target):
-        assert len(input.shape) == len(target.shape)
+        assert input.shape == target.shape
         self.input = input
         self.target = target
         res = (target - input) ** 2

@@ -27,8 +27,8 @@ class Linear(Module):
     def forward(self, x):
         self.x = x
         if self.bias:
-            return self.x.dot(self.A) + self.b
-        return self.x.dot(self.A)
+            return np.matmul(self.x, self.A) + self.b
+        return np.matmul(self.x, self.A)
 
     def grad(self, gradient, orde="jacobian"):
         assert orde in self._valid_orde, f"Invalid orde: {orde}, expected 'jacobian' or 'hessian'"
@@ -61,12 +61,12 @@ class Linear(Module):
             _nonlinearity_first = gradient['nonlinearity_first']
             _nonlinearity_second = gradient['nonlinearity_second']
 
-            gradient_A = np.transpose(self.x, (0, 2, 1)).dot(_nonlinearity_first * _error_second) * np.transpose(self.x, (0, 2, 1)).dot(_nonlinearity_first)
-            gradient_A = gradient_A + np.transpose((self.x * self.x),(0, 2, 1)).dot(_error_first * _nonlinearity_second) 
+            gradient_A = np.matmul(np.transpose(self.x, (0, 2, 1)), _nonlinearity_first * _error_second) * np.matmul(np.transpose(self.x, (0, 2, 1)), _nonlinearity_first)
+            gradient_A = gradient_A + np.matmul(np.transpose((self.x * self.x),(0, 2, 1)), _error_first * _nonlinearity_second) 
             if self.bias:
                 gradient_b = (_error_second * np.square(_nonlinearity_first) + _error_first * _nonlinearity_second).mean(axis=0, keepdims=True)
-            gradient_x = (_error_second * _nonlinearity_first).dot(np.transpose(self.A, (0, 2, 1))) * _nonlinearity_first.dot(np.transpose(self.A, (0, 2, 1)))
-            gradient_x = gradient_x + (_error_first * _nonlinearity_second).dot(np.transpose(np.square(self.A), (0, 2, 1)))
+            gradient_x = np.matmul((_error_second * _nonlinearity_first), np.transpose(self.A, (0, 2, 1))) * np.matmul(_nonlinearity_first, np.transpose(self.A, (0, 2, 1)))
+            gradient_x = gradient_x + np.matmul((_error_first * _nonlinearity_second), np.transpose(np.square(self.A), (0, 2, 1)))
 
         setattr(self, name_gradient_A, gradient_A)
         if self.bias:
