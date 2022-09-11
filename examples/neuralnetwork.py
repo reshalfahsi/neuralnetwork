@@ -75,37 +75,38 @@ class NeuralNetwork(nn.Module):
 
         #-----------------------------------------------------
 
-        self.d2x0 = criterion.grad('hessian')                                                        
-        self.d2x1 = self.sigmoid.grad(self.out4, 'hessian')
+        if method == 'newton':
+            self.d2x0 = criterion.grad('hessian')                                                        
+            self.d2x1 = self.sigmoid.grad(self.out4, 'hessian')
 
-        gradient = {
-            'error_first': self.dx0,
-            'error_second': self.d2x0,
-            'nonlinearity_first': self.dx1,
-            'nonlinearity_second': self.d2x1,
-        }               
+            gradient = {
+                'error_first': self.dx0,
+                'error_second': self.d2x0,
+                'nonlinearity_first': self.dx1,
+                'nonlinearity_second': self.d2x1,
+            }               
 
-        self.d2x2 = self.linear2.grad(gradient, 'hessian')
-        self.d2x3 = self.sigmoid.grad(self.out2, 'hessian') 
+            self.d2x2 = self.linear2.grad(gradient, 'hessian')
+            self.d2x3 = self.sigmoid.grad(self.out2, 'hessian') 
 
-        gradient = {
-            'error_first': self.dx2,
-            'error_second': self.d2x2,
-            'nonlinearity_first': self.dx3,
-            'nonlinearity_second': self.d2x3,
-        }         
-                                                                           
-        self.d2x4 = self.linear1.grad(gradient, 'hessian')
-        self.d2x5 = self.sigmoid.grad(self.out0, 'hessian')
+            gradient = {
+                'error_first': self.dx2,
+                'error_second': self.d2x2,
+                'nonlinearity_first': self.dx3,
+                'nonlinearity_second': self.d2x3,
+            }         
+                                                                            
+            self.d2x4 = self.linear1.grad(gradient, 'hessian')
+            self.d2x5 = self.sigmoid.grad(self.out0, 'hessian')
 
-        gradient = {
-            'error_first': self.dx4,
-            'error_second': self.d2x4,
-            'nonlinearity_first': self.dx5,
-            'nonlinearity_second': self.d2x5,
-        } 
+            gradient = {
+                'error_first': self.dx4,
+                'error_second': self.d2x4,
+                'nonlinearity_first': self.dx5,
+                'nonlinearity_second': self.d2x5,
+            } 
 
-        self.d2x6 = self.linear0.grad(gradient, 'hessian')
+            self.d2x6 = self.linear0.grad(gradient, 'hessian')
 
         #-----------------------------------------------------
 
@@ -157,7 +158,7 @@ for epoch in range(NUM_EPOCHS):
                 "{}/{} - The training loss at {}th epoch : {}  Training Accuracy:{}".format(
                     idx + 1,
                     len(train_dataset) // BATCH_SIZE,
-                    epoch,
+                    epoch + 1,
                     np.array(loss).mean(),
                     np.array(acc).mean(),
                 ),
@@ -201,7 +202,7 @@ for epoch in range(NUM_EPOCHS):
                 "{}/{} - The training loss at {}th epoch : {}  Training Accuracy:{}".format(
                     idx + 1,
                     len(train_dataset) // BATCH_SIZE,
-                    epoch,
+                    epoch + 1,
                     np.array(loss).mean(),
                     np.array(acc).mean(),
                 ),
