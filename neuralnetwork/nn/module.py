@@ -90,7 +90,6 @@ class Linear(Module):
         return gradient_x
 
     def update(self, lr=1e-3, method=None):
-
         denum_A = 1.0
         if self.bias:
             denum_b = 1.0

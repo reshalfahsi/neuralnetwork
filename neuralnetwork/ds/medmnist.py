@@ -22,7 +22,6 @@ from medmnist.info import INFO, HOMEPAGE, DEFAULT_ROOT
 
 
 class MedMNIST(Sequence):
-
     flag = ...
 
     def __init__(
@@ -146,7 +145,6 @@ class MedMNIST2D(MedMNIST):
         return img, target
 
     def save(self, folder, postfix="png", write_csv=True):
-
         from medmnist.utils import save2d
 
         save2d(

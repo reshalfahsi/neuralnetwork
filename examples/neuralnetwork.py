@@ -54,7 +54,6 @@ class NeuralNetwork(nn.Module):
         return self.out5
 
     def backward(self, lr, criterion, method=None):
-
         self.dx0 = criterion.grad()
 
         self.dx1 = self.sigmoid.grad(self.out4)
@@ -148,7 +147,8 @@ for epoch in range(NUM_EPOCHS):
         acc.append(accuracy(model, x, y))
         if idx % 20 == 0 or idx == len(train_dataset) - 1:
             print(
-                "{}/{} - The training loss at {}th epoch : {}  Training Accuracy:{}".format(
+                "{}/{} - The training loss at {}th epoch : {}  Training Accuracy:{}"
+                .format(
                     idx + 1,
                     len(train_dataset) // BATCH_SIZE,
                     epoch + 1,
@@ -192,7 +192,8 @@ for epoch in range(NUM_EPOCHS):
         acc.append(accuracy(model, x, y))
         if idx % 20 == 0 or idx == len(train_dataset) - 1:
             print(
-                "{}/{} - The training loss at {}th epoch : {}  Training Accuracy:{}".format(
+                "{}/{} - The training loss at {}th epoch : {}  Training Accuracy:{}"
+                .format(
                     idx + 1,
                     len(train_dataset) // BATCH_SIZE,
                     epoch + 1,
