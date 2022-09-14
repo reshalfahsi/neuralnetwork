@@ -2,6 +2,13 @@
 
 """## **Hyperparameters**"""
 
+import random
+import time
+import neuralnetwork.nn as nn
+import numpy as np
+from neuralnetwork import ds
+from neuralnetwork.ds.medmnist import PneumoniaMNIST
+
 NUM_EPOCHS = 32
 BATCH_SIZE = 16
 lr = 1e-2
@@ -10,10 +17,6 @@ lr = 1e-2
 
 This tutorial will use a toy dataset from [MedMNIST](https://medmnist.com/). We use PneumoniaMNIST, which contains 2D X-ray image-label pairs for distinguishing between Pneumonia-infected and healthy lungs. The pneumonia-infected lung is denoted by the label `1` whilst the healthy lung is labeled as `0`.
 """
-
-from neuralnetwork.ds.medmnist import PneumoniaMNIST
-from neuralnetwork import ds
-import numpy as np
 
 
 train_dataset = PneumoniaMNIST(split="train", download=True)
@@ -29,8 +32,6 @@ train_dataset.montage(length=20)
 The artificial neural network is a bio-inspired machine learning method that models neuronal signal propagation by matrix multiplication. Here we have two kinds of neuronal signal propagation: forward propagation and backward propagation. In forward propagation, the neuron actively conveys information from the "receptor" (or input) to the "central nervous system" (or output). Backward propagation or backpropagation, in short, is utilized in the training or learning process. In the learning process, the neural network transmits error gradients from the "central nervous system" to the "receptor". For further knowledge about the learning process, read more: [Calculus on Computational Graphs: Backpropagation](https://colah.github.io/posts/2015-08-Backprop/) and [Backpropagation for a Linear Layer
 ](https://web.eecs.umich.edu/~justincj/teaching/eecs442/notes/linear-backprop.html).
 """
-
-import neuralnetwork.nn as nn
 
 
 class NeuralNetwork(nn.Module):
@@ -53,22 +54,14 @@ class NeuralNetwork(nn.Module):
         return self.out5
 
     def backward(self, lr, criterion, method=None):
-        # Computational Graph
-        #
-        self.dx0 = criterion.grad()  # loss_grad(pred, y)
-        #        |
-        self.dx1 = self.sigmoid.grad(self.out4)  # sigmoid_grad(pred)
-        #        |
-        #        +
-        #       / \
-        #      |   |
-        #  b_grad  *
-        #         / \
-        #        |   |
-        self.dx2 = self.linear2.grad(self.dx1 * self.dx0)  #   A_grad   x_grad
-        #          .
-        self.dx3 = self.sigmoid.grad(self.out2)  #          .
-        self.dx4 = self.linear1.grad(self.dx3 * self.dx2)  #          .
+
+        self.dx0 = criterion.grad()
+
+        self.dx1 = self.sigmoid.grad(self.out4)
+
+        self.dx2 = self.linear2.grad(self.dx1 * self.dx0)
+        self.dx3 = self.sigmoid.grad(self.out2)
+        self.dx4 = self.linear1.grad(self.dx3 * self.dx2)
 
         self.dx5 = self.sigmoid.grad(self.out0)
         self.dx6 = self.linear0.grad(self.dx5 * self.dx4)
@@ -116,8 +109,6 @@ class NeuralNetwork(nn.Module):
 
 
 """## **Training**"""
-
-import time
 
 
 def accuracy(model, X, Y):
@@ -221,7 +212,6 @@ print(f"Training finished in {epoch + 1} epochs and {end - start:0.4f} seconds")
 
 """## **Testing**"""
 
-import random
 
 index = random.randint(0, len(test_dataset))
 
