@@ -53,10 +53,14 @@ class MedMNIST(Sequence):
         if download:
             self.download()
 
-        if not os.path.exists(os.path.join(self.root, "{}.npz".format(self.flag))):
+        if not os.path.exists(
+            os.path.join(
+                self.root,
+                "{}.npz".format(
+                self.flag))):
             raise RuntimeError(
-                "Dataset not found." + " You can use download=True to download it"
-            )
+                "Dataset not found." +
+                " You can use download=True to download it")
 
         npz_file = np.load(os.path.join(self.root, "{}.npz".format(self.flag)))
 
@@ -107,7 +111,7 @@ class MedMNIST(Sequence):
                 filename="{}.npz".format(self.flag),
                 md5=self.info["MD5"],
             )
-        except:
+        except BaseException:
             raise RuntimeError(
                 "Something went wrong when downloading! "
                 + "Go to the homepage to download manually. "
@@ -152,10 +156,14 @@ class MedMNIST2D(MedMNIST):
         save2d(
             imgs=self.imgs,
             labels=self.labels,
-            img_folder=os.path.join(folder, self.flag),
+            img_folder=os.path.join(
+                folder,
+                self.flag),
             split=self.split,
             postfix=postfix,
-            csv_path=os.path.join(folder, f"{self.flag}.csv") if write_csv else None,
+            csv_path=os.path.join(
+                folder,
+                f"{self.flag}.csv") if write_csv else None,
         )
 
     def montage(self, length=20, replace=False, save_folder=None):
@@ -172,8 +180,9 @@ class MedMNIST2D(MedMNIST):
             if not os.path.exists(save_folder):
                 os.makedirs(save_folder)
             montage_img.save(
-                os.path.join(save_folder, f"{self.flag}_{self.split}_montage.jpg")
-            )
+                os.path.join(
+                    save_folder,
+                    f"{self.flag}_{self.split}_montage.jpg"))
 
         return montage_img
 
@@ -205,10 +214,14 @@ class MedMNIST3D(MedMNIST):
         save3d(
             imgs=self.imgs,
             labels=self.labels,
-            img_folder=os.path.join(folder, self.flag),
+            img_folder=os.path.join(
+                folder,
+                self.flag),
             split=self.split,
             postfix=postfix,
-            csv_path=os.path.join(folder, f"{self.flag}.csv") if write_csv else None,
+            csv_path=os.path.join(
+                folder,
+                f"{self.flag}.csv") if write_csv else None,
         )
 
     def montage(self, length=20, replace=False, save_folder=None):
@@ -229,7 +242,9 @@ class MedMNIST3D(MedMNIST):
 
             save_frames_as_gif(
                 montage_frames,
-                os.path.join(save_folder, f"{self.flag}_{self.split}_montage.gif"),
+                os.path.join(
+                    save_folder,
+                    f"{self.flag}_{self.split}_montage.gif"),
             )
 
         return montage_frames

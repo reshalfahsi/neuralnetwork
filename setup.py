@@ -24,7 +24,10 @@ long_description = (this_directory / "README.md").read_text()
 
 # read version
 version = {}
-version_file_contents = (this_directory / "neuralnetwork" / "version.py").read_text()
+version_file_contents = (
+    this_directory /
+    "neuralnetwork" /
+    "version.py").read_text()
 exec(version_file_contents, version)
 
 

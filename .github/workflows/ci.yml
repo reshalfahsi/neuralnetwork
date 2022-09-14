@@ -38,7 +38,7 @@ jobs:
       - name: Lint Python code
         run: flake8 . --count --ignore=W503,E203,W504,F403,F401,E501 --exclude .git,dist,doc,build,vendors --show-source --statistics
       - name: Check Python formatting
-        run: black neuralnetwork tests setup.py --preview --diff --check
+        run: black examples neuralnetwork tests setup.py --preview --diff --check
 
   build:
     needs: [lint-python]
