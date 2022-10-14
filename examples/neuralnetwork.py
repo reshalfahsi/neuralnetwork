@@ -1,13 +1,6 @@
 # -*- coding: utf-8 -*-
 """NeuralNetwork.ipynb
-
-## **Install Package**
 """
-
-# Commented out IPython magic to ensure Python compatibility.
-!git clone -q https://github.com/reshalfahsi/neuralnetwork
-# %cd neuralnetwork
-!pip install -q .
 
 """## **Hyperparameters**"""
 
