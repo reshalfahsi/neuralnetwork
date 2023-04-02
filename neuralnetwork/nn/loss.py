@@ -32,3 +32,31 @@ class MSELoss(Module):
             order in self._valid_order
         ), f"Invalid order: {order}, expected 'jacobian' or 'hessian'"
         return -2 * (self.target - self.input) if order == "jacobian" else 2.0
+
+
+class BCELoss(Module):
+    def __init__(self):
+        super(BCELoss, self).__init__()
+
+    def forward(self, input, target):
+        self.input = input
+        self.target = target
+        self.m = input.shape[-1]
+        res = (1 / self.m) * np.sum(
+            -target * np.log(input) - (1 - target) * np.log(1 - input)
+        )
+        self.loss = res.mean()
+        return self.loss
+
+    def grad(self, order="jacobian"):
+        assert (
+            order in self._valid_order
+        ), f"Invalid order: {order}, expected 'jacobian' or 'hessian'"
+        return (
+            (1 / self.m)
+            * (-(self.target / self.input) + ((1 - self.target) / (1 - self.input)))
+            if order == "jacobian"
+            else (1 / self.m)
+            * (self.input * self.input - 2.0 * self.input * self.target + self.target)
+            / ((1 - self.input) * (1 - self.input) * self.input * self.input)
+        )

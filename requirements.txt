@@ -13,3 +13,6 @@ interrogate
 numpy
 medmnist
 Pillow
+torch
+torchvision
+tensorflow
