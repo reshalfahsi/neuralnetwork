@@ -13,6 +13,7 @@
 
 
 from .base import Module
+import numpy as np
 
 
 class MSELoss(Module):
