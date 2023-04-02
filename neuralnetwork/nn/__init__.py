@@ -12,6 +12,6 @@
 # ==============================================================================
 
 from .base import Module
-from .loss import MSELoss
+from .loss import MSELoss, BCELoss
 from .activation import Sigmoid
 from .module import Linear
