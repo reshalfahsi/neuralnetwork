@@ -39,7 +39,7 @@ class Tanh(Module):
         super(Tanh, self).__init__()
 
     def forward(self, input):
-        return (np.exp(input) - np.exp(-input)) / (np.exp(input) + np.exp(-input))
+        return np.tanh(input)
 
     def grad(self, x, order="jacobian"):
         assert (
