@@ -31,21 +31,21 @@ class MedicalInsuranceCost:
             map(lambda x: 1 if x == "yes" else 0, self.dataset["smoker"])
         )
 
-        self.mean_age = self.dataset.mean()['age']
-        self.mean_age = self.dataset.mean()['bmi']
+        mean_age = self.dataset.mean()['age']
+        mean_bmi = self.dataset.mean()['bmi']
         self.mean_charges = self.dataset.mean()['charges']
 
-        self.std_age = self.dataset.std()['age']
-        self.std_bmi = self.dataset.std()['bmi']
+        std_age = self.dataset.std()['age']
+        std_bmi = self.dataset.std()['bmi']
         self.std_charges = self.dataset.std()['charges']
 
         self.dataset = train_dataset if split == "train" else test_dataset
 
         self.dataset["age"] = list(
-            map(lambda x: (x - self.mean_age)/self.std_age, self.dataset["age"])
+            map(lambda x: (x - mean_age)/std_age, self.dataset["age"])
         )
         self.dataset["bmi"] = list(
-            map(lambda x: (x - self.mean_bmi)/self.std_bmi, self.dataset["bmi"])
+            map(lambda x: (x - mean_bmi)/std_bmi, self.dataset["bmi"])
         )
         self.dataset["charges"] = list(
             map(lambda x: (x - self.mean_charges)/self.std_charges, self.dataset["charges"])
