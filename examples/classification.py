@@ -1,15 +1,7 @@
 # -*- coding: utf-8 -*-
 """Classification.ipynb
 
-## **Install Package**
-"""
-
-# Commented out IPython magic to ensure Python compatibility.
-!git clone -q https://github.com/reshalfahsi/neuralnetwork
-# %cd neuralnetwork
-!pip install -q .
-
-"""## **Hyperparameters**"""
+"""  ## **Hyperparameters**"""
 
 NUM_EPOCHS = 32
 BATCH_SIZE = 16
@@ -25,8 +17,8 @@ from neuralnetwork import ds
 import numpy as np
 
 
-train_dataset = PneumoniaMNIST(split='train', download=True)
-test_dataset = PneumoniaMNIST(split='test', download=True)
+train_dataset = PneumoniaMNIST(split="train", download=True)
+test_dataset = PneumoniaMNIST(split="test", download=True)
 
 print("Train Dataset:", len(train_dataset))
 print("Test Dataset", len(test_dataset))
@@ -60,64 +52,65 @@ class NeuralNetwork(nn.Module):
         self.out5 = self.activation(self.out4)
 
         return self.out5
-    
+
     def backward(self, lr, criterion, method=None):
-                                                               # Computational Graph
-                                                               #
-        self.dx0 = criterion.grad()                            # loss_grad(pred, y)
-                                                               #        |
-        self.dx1 = self.sigmoid.grad(self.out4)                # sigmoid_grad(pred)
-                                                               #        |
-                                                               #        +
-                                                               #       / \
-                                                               #      |   |
-                                                               #  b_grad  *
-                                                               #         / \
-                                                               #        |   |
-        self.dx2 = self.linear2.grad(self.dx1 * self.dx0)      #   A_grad   x_grad
-                                                               #          .
-        self.dx3 = self.sigmoid.grad(self.out2)                #          .
-        self.dx4 = self.linear1.grad(self.dx3 * self.dx2)      #          .
+        # Computational Graph
+        #
+        self.dx0 = criterion.grad()  # loss_grad(pred, y)
+        #        |
+        self.dx1 = self.sigmoid.grad(self.out4)  # sigmoid_grad(pred)
+        #        |
+        #        +
+        #       / \
+        #      |   |
+        #  b_grad  *
+        #         / \
+        #        |   |
+        self.dx2 = self.linear2.grad(self.dx1 * self.dx0)  #   A_grad   x_grad
+        #          .
+        self.dx3 = self.sigmoid.grad(self.out2)  #          .
+        self.dx4 = self.linear1.grad(self.dx3 * self.dx2)  #          .
 
         self.dx5 = self.sigmoid.grad(self.out0)
         self.dx6 = self.linear0.grad(self.dx5 * self.dx4)
 
-        if method == 'newton':
-            self.d2x0 = criterion.grad('hessian')                                                        
-            self.d2x1 = self.sigmoid.grad(self.out4, 'hessian')
+        if method == "newton":
+            self.d2x0 = criterion.grad("hessian")
+            self.d2x1 = self.sigmoid.grad(self.out4, "hessian")
 
             gradient = {
-                'error_first': self.dx0,
-                'error_second': self.d2x0,
-                'nonlinearity_first': self.dx1,
-                'nonlinearity_second': self.d2x1,
-            }               
+                "error_first": self.dx0,
+                "error_second": self.d2x0,
+                "nonlinearity_first": self.dx1,
+                "nonlinearity_second": self.d2x1,
+            }
 
-            self.d2x2 = self.linear2.grad(gradient, 'hessian')
-            self.d2x3 = self.sigmoid.grad(self.out2, 'hessian') 
-
-            gradient = {
-                'error_first': self.dx2,
-                'error_second': self.d2x2,
-                'nonlinearity_first': self.dx3,
-                'nonlinearity_second': self.d2x3,
-            }         
-                                                                            
-            self.d2x4 = self.linear1.grad(gradient, 'hessian')
-            self.d2x5 = self.sigmoid.grad(self.out0, 'hessian')
+            self.d2x2 = self.linear2.grad(gradient, "hessian")
+            self.d2x3 = self.sigmoid.grad(self.out2, "hessian")
 
             gradient = {
-                'error_first': self.dx4,
-                'error_second': self.d2x4,
-                'nonlinearity_first': self.dx5,
-                'nonlinearity_second': self.d2x5,
-            } 
+                "error_first": self.dx2,
+                "error_second": self.d2x2,
+                "nonlinearity_first": self.dx3,
+                "nonlinearity_second": self.d2x3,
+            }
 
-            self.d2x6 = self.linear0.grad(gradient, 'hessian')
+            self.d2x4 = self.linear1.grad(gradient, "hessian")
+            self.d2x5 = self.sigmoid.grad(self.out0, "hessian")
+
+            gradient = {
+                "error_first": self.dx4,
+                "error_second": self.d2x4,
+                "nonlinearity_first": self.dx5,
+                "nonlinearity_second": self.d2x5,
+            }
+
+            self.d2x6 = self.linear0.grad(gradient, "hessian")
 
         self.linear0.update(lr, method)
         self.linear1.update(lr, method)
         self.linear2.update(lr, method)
+
 
 """## **Training**"""
 
@@ -131,6 +124,7 @@ def accuracy(model, X, Y):
     acc = np.sum(pred == Y)
     acc = acc / Y.shape[0]
     return acc
+
 
 seed = np.random.randint(2147483647)
 print(seed)
@@ -184,7 +178,7 @@ end = time.perf_counter()
 print(f"Training finished in {epoch + 1} epochs and {end - start:0.4f} seconds")
 
 plt.title("Gradient Descent")
-plt.plot(loss_train, color = 'r')
+plt.plot(loss_train, color="r")
 plt.xlabel("epoch")
 plt.ylabel("loss")
 plt.grid()
@@ -215,7 +209,7 @@ for epoch in range(NUM_EPOCHS):
         y = y.reshape(bs, 1, 1)
         pred = model(x)
         loss.append(criterion(pred, y))
-        model.backward(lr, criterion, 'newton')
+        model.backward(lr, criterion, "newton")
         acc.append(accuracy(model, x, y))
         if idx % 20 == 0 or idx == len(train_dataset) - 1:
             print(
@@ -240,7 +234,7 @@ end = time.perf_counter()
 print(f"Training finished in {epoch + 1} epochs and {end - start:0.4f} seconds")
 
 plt.title("Newton Method")
-plt.plot(loss_train, color = 'b')
+plt.plot(loss_train, color="b")
 plt.xlabel("epoch")
 plt.ylabel("loss")
 plt.grid()
@@ -258,11 +252,11 @@ x, y = test_dataset[index]
 display(x.resize((140, 140)))
 x = np.array(x)
 L = x.shape[0] * x.shape[1]
-x = x.reshape(1, 1, L)/255.
+x = x.reshape(1, 1, L) / 255.0
 pred = model(x)
 
 pred = pred.squeeze(0).squeeze(0)
-pred[pred>=0.5] = 1
-pred[pred<0.5] = 0
+pred[pred >= 0.5] = 1
+pred[pred < 0.5] = 0
 print("Prediction: Pneumonia" if pred[0] else "Prediction: Healthy")
 print("Ground Truth: Pneumonia" if y[0] else "Ground Truth: Healthy")

@@ -50,15 +50,21 @@ class BCELoss(Module):
         return self.loss
 
     def grad(self, order="jacobian"):
-        epsilon = 1e-8 # for numeric stability
+        epsilon = 1e-8  # for numeric stability
         assert (
             order in self._valid_order
         ), f"Invalid order: {order}, expected 'jacobian' or 'hessian'"
         return (
             (1 / self.m)
-            * (-(self.target / self.input) + ((1 - self.target) / (1 - self.input)))
+            * (
+                -(self.target / (self.input + epsilon))
+                + ((1.0 - self.target) / ((1.0 - self.input) + epsilon))
+            )
             if order == "jacobian"
             else (1 / self.m)
             * (self.input * self.input - 2.0 * self.input * self.target + self.target)
-            / (((1 - self.input) * (1 - self.input) * self.input * self.input) + epsilon)
+            / (
+                ((1 - self.input) * (1 - self.input) * self.input * self.input)
+                + epsilon
+            )
         )
