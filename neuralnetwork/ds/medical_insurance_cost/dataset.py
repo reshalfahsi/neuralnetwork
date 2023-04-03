@@ -16,6 +16,8 @@
 import pandas as pd
 import numpy as np
 import os
+import warnings
+
 
 
 class MedicalInsuranceCost:
@@ -29,6 +31,8 @@ class MedicalInsuranceCost:
         self.dataset["smoker"] = list(
             map(lambda x: 1 if x == "yes" else 0, self.dataset["smoker"])
         )
+
+        warnings.filterwarnings("ignore")
 
         mean_age = self.dataset.mean()["age"]
         mean_bmi = self.dataset.mean()["bmi"]
