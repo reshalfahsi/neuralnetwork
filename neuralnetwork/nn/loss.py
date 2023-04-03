@@ -24,7 +24,8 @@ class MSELoss(Module):
         assert input.shape == target.shape
         self.input = input
         self.target = target
-        res = (target - input) ** 2
+        self.m = self.input.shape[0]
+        res = 1./self.m * (target - input) ** 2
         self.loss = res.mean()
         return self.loss
 
@@ -32,7 +33,7 @@ class MSELoss(Module):
         assert (
             order in self._valid_order
         ), f"Invalid order: {order}, expected 'jacobian' or 'hessian'"
-        return -2 * (self.target - self.input) if order == "jacobian" else 2.0
+        return -2 * 1./self.m * (self.target - self.input) if order == "jacobian" else 2.0 * 1./self.m
 
 
 class BCELoss(Module):
