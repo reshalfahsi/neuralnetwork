@@ -32,3 +32,21 @@ class Sigmoid(Module):
             if order == "jacobian"
             else self(x) * (1.0 - self(x)) * (1.0 - 2.0 * self(x))
         )
+
+
+class Tanh(Module):
+    def __init__(self):
+        super(Tanh, self).__init__()
+
+    def forward(self, input):
+        return (np.exp(input) - np.exp(-input)) / (np.exp(input) + np.exp(-input))
+
+    def grad(self, x, order="jacobian"):
+        assert (
+            order in self._valid_order
+        ), f"Invalid order: {order}, expected 'jacobian' or 'hessian'"
+        return (
+            1.0 - (self(x) * self(x))
+            if order == "jacobian"
+            else -2.0 * self(x) * (1.0 - (self(x) * self(x)))
+        )

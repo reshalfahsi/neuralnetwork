@@ -43,6 +43,12 @@ setup(
         "medmnist",
         "Pillow",
     ],
+    package_data={
+        "neuralnetwork": [
+            "ds/medical_insurance_cost/train.csv",
+            "ds/medical_insurance_cost/test.csv",
+        ],
+    },
     include_package_data=True,
     classifiers=[
         "Development Status :: 4 - Beta",
