@@ -61,7 +61,7 @@ class MedicalInsuranceCost:
         return len(self.dataset)
 
     def head(self, n=5):
-        self.dataset.head(n)
+        print(self.dataset.head(n))
 
     def __getitem__(self, index):
         """
