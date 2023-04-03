@@ -38,7 +38,7 @@ class MSELoss(Module):
 class BCELoss(Module):
     def __init__(self):
         super(BCELoss, self).__init__()
-        self.epsilon = 1e-8  # for numeric stability
+        self.epsilon = 1.4012985e-45  # for numeric stability
 
     def forward(self, input, target):
         self.input = input
