@@ -21,12 +21,40 @@ import os
 class MedicalInsuranceCost:
     def __init__(self, split=None):
         assert split != None, "Please specify the split: 'train' or 'test'"
-        DATASET_FILENAME = "train.csv" if split == "train" else "test.csv"
-        self.dataset = pd.read_csv(os.path.join(str(os.getcwd()), DATASET_FILENAME))
+        
+        train_dataset = pd.read_csv(os.path.join(str(os.getcwd()), "train.csv"))
+        test_dataset = pd.read_csv(os.path.join(str(os.getcwd()), "train.csv"))
+
+        self.dataset = pd.concat([train_dataset, test_dataset], axis=0)
 
         self.dataset["smoker"] = list(
-            map(lambda x: 1 if x == "yes" else 0, df["smoker"])
+            map(lambda x: 1 if x == "yes" else 0, self.dataset["smoker"])
         )
+
+        self.mean_age = self.dataset.mean()['age']
+        self.mean_age = self.dataset.mean()['bmi']
+        self.mean_charges = self.dataset.mean()['charges']
+
+        self.std_age = self.dataset.std()['age']
+        self.std_bmi = self.dataset.std()['bmi']
+        self.std_charges = self.dataset.std()['charges']
+
+        self.dataset = train_dataset if split == "train" else test_dataset
+
+        self.dataset["age"] = list(
+            map(lambda x: (x - self.mean_age)/self.std_age, self.dataset["age"])
+        )
+        self.dataset["bmi"] = list(
+            map(lambda x: (x - self.mean_bmi)/self.std_bmi, self.dataset["bmi"])
+        )
+        self.dataset["charges"] = list(
+            map(lambda x: (x - self.mean_charges)/self.std_charges, self.dataset["charges"])
+        )
+
+    def final_pred(self, x):
+        """Get the the real value of prediction.
+        """
+        return (x * self.std_charges) + self.mean_charges
 
     def __len__(self):
         return len(self.dataset)
