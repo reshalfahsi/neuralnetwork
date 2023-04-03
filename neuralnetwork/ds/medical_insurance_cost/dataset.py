@@ -72,8 +72,8 @@ class MedicalInsuranceCost:
         Why these features? `Check the EDA on this Kaggle notebook
         <https://www.kaggle.com/code/deepgupta4023/eda-and-simple-gradient-boosting>`__ .
         """
-        X = self.dataset[["age", "bmi", "smoker"]].iloc[index].values.tolist()
-        Y = self.dataset["charges"].iloc[index].values.tolist()
+        X = self.dataset[["age", "bmi", "smoker"]].iloc[index].tolist()
+        Y = self.dataset["charges"].iloc[index].tolist()
 
         return X, Y
 
