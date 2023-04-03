@@ -17,7 +17,7 @@ pip install .
 
 ## Quick Demo
 
-Here is a short example of the usage of `neuralnetwork` components. For the complete demo, please take a look at [`examples/classification.py`](https://github.com/reshalfahsi/neuralnetwork/blob/main/examples/classification.py) and [`notebook/Classification.ipynb`](https://github.com/reshalfahsi/neuralnetwork/blob/main/notebook/Classification.ipynb) for the classification problem. We also provide example for regression problem: [`examples/classification.py`](https://github.com/reshalfahsi/neuralnetwork/blob/main/examples/regression.py) and [`notebook/Regression.ipynb`](https://github.com/reshalfahsi/neuralnetwork/blob/main/notebook/Regression.ipynb).
+Here is a short example of the usage of `neuralnetwork` components. For the complete demo, please take a look at [`examples/classification.py`](https://github.com/reshalfahsi/neuralnetwork/blob/main/examples/classification.py) and [`notebook/Classification.ipynb`](https://github.com/reshalfahsi/neuralnetwork/blob/main/notebook/Classification.ipynb) for the classification problem. We also provide example for regression problem: [`examples/regression.py`](https://github.com/reshalfahsi/neuralnetwork/blob/main/examples/regression.py) and [`notebook/Regression.ipynb`](https://github.com/reshalfahsi/neuralnetwork/blob/main/notebook/Regression.ipynb).
 
 ```python
 import neuralnetwork.nn as nn
