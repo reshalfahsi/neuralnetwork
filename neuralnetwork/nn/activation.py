@@ -19,10 +19,9 @@ from .base import Module
 class Sigmoid(Module):
     def __init__(self):
         super(Sigmoid, self).__init__()
-        self.epsilon = 1.4012985e-45  # for numeric stability
 
     def forward(self, input):
-        return 1.0 / np.clip(1.0 + np.exp(-input), self.epsilon, 1.)
+        return 1.0 / (1.0 + np.exp(-input))
 
     def grad(self, x, order="jacobian"):
         assert (

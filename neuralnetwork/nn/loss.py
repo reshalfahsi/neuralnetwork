@@ -45,8 +45,8 @@ class BCELoss(Module):
         self.target = target
         self.m = input.shape[-1]
         res = (1 / self.m) * np.sum(
-            -target * np.log(input + self.epsilon)
-            - (1 - target) * np.log(1 - (input + self.epsilon))
+            -target * np.log(np.clip(input, self.epsilon, 1))
+            - (1 - target) * np.log(np.clip(1 - input, self.epsilon, 1))
         )
         self.loss = res.mean()
         return self.loss
