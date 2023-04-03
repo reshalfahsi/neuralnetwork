@@ -22,8 +22,8 @@ class MedicalInsuranceCost:
     def __init__(self, split=None):
         assert split != None, "Please specify the split: 'train' or 'test'"
         
-        train_dataset = pd.read_csv(os.path.join(str(os.getcwd()), "train.csv"))
-        test_dataset = pd.read_csv(os.path.join(str(os.getcwd()), "train.csv"))
+        train_dataset = pd.read_csv(os.path.join(str(os.path.realpath(__file__)), "train.csv"))
+        test_dataset = pd.read_csv(os.path.join(str(os.path.realpath(__file__)), "train.csv"))
 
         self.dataset = pd.concat([train_dataset, test_dataset], axis=0)
 
