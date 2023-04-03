@@ -45,8 +45,7 @@ setup(
     ],
     package_data={
         "neuralnetwork": [
-            "ds/medical_insurance_cost/train.csv",
-            "ds/medical_insurance_cost/test.csv",
+            "ds/medical_insurance_cost/*.csv",
         ],
     },
     include_package_data=True,

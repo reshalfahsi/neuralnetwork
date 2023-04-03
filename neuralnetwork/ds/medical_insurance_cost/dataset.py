@@ -22,14 +22,9 @@ class MedicalInsuranceCost:
     def __init__(self, split=None):
         assert split != None, "Please specify the split: 'train' or 'test'"
 
-        train_dataset = pd.read_csv(
-            os.path.join(str(os.path.dirname(os.path.realpath(__file__))), "train.csv")
+        self.dataset = pd.read_csv(
+            os.path.join(str(os.path.dirname(os.path.realpath(__file__))), "dataset.csv")
         )
-        test_dataset = pd.read_csv(
-            os.path.join(str(os.path.dirname(os.path.realpath(__file__))), "test.csv")
-        )
-
-        self.dataset = pd.concat([train_dataset, test_dataset], axis=0)
 
         self.dataset["smoker"] = list(
             map(lambda x: 1 if x == "yes" else 0, self.dataset["smoker"])
@@ -43,7 +38,7 @@ class MedicalInsuranceCost:
         std_bmi = self.dataset.std()["bmi"]
         self.std_charges = self.dataset.std()["charges"]
 
-        self.dataset = train_dataset if split == "train" else test_dataset
+        self.dataset = self.dataset[:2904] if split == "train" else self.dataset[2904:]
 
         self.dataset["age"] = list(
             map(lambda x: (x - mean_age) / std_age, self.dataset["age"])
