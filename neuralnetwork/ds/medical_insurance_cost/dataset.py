@@ -42,7 +42,7 @@ class MedicalInsuranceCost:
         std_bmi = self.dataset.std()["bmi"]
         self.std_charges = self.dataset.std()["charges"]
 
-        self.dataset = self.dataset[:2904] if split == "train" else self.dataset[2904:]
+        self.dataset = self.dataset[:3300] if split == "train" else self.dataset[3300:]
 
         self.dataset["age"] = list(
             map(lambda x: (x - mean_age) / std_age, self.dataset["age"])
