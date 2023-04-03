@@ -38,33 +38,35 @@ class MSELoss(Module):
 class BCELoss(Module):
     def __init__(self):
         super(BCELoss, self).__init__()
+        self.epsilon = 1e-8  # for numeric stability
 
     def forward(self, input, target):
         self.input = input
         self.target = target
         self.m = input.shape[-1]
         res = (1 / self.m) * np.sum(
-            -target * np.log(input) - (1 - target) * np.log(1 - input)
+            -target * np.log(input + self.epsilon)
+            - (1 - target) * np.log(1 - (input + self.epsilon))
         )
         self.loss = res.mean()
         return self.loss
 
     def grad(self, order="jacobian"):
-        epsilon = 1e-8  # for numeric stability
+
         assert (
             order in self._valid_order
         ), f"Invalid order: {order}, expected 'jacobian' or 'hessian'"
         return (
             (1 / self.m)
             * (
-                -(self.target / (self.input + epsilon))
-                + ((1.0 - self.target) / ((1.0 - self.input) + epsilon))
+                -(self.target / (self.input + self.epsilon))
+                + ((1.0 - self.target) / ((1.0 - self.input) + self.epsilon))
             )
             if order == "jacobian"
             else (1 / self.m)
             * (self.input * self.input - 2.0 * self.input * self.target + self.target)
             / (
                 ((1 - self.input) * (1 - self.input) * self.input * self.input)
-                + epsilon
+                + self.epsilon
             )
         )
