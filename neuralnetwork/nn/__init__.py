@@ -13,5 +13,5 @@
 
 from .base import Module
 from .loss import MSELoss, BCELoss
-from .activation import Sigmoid
+from .activation import Sigmoid, Tanh
 from .module import Linear
