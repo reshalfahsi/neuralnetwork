@@ -5,7 +5,7 @@
   <a href="https://github.com/reshalfahsi/neuralnetwork/actions/workflows/ci.yml"><img src="https://github.com/reshalfahsi/neuralnetwork/actions/workflows/ci.yml/badge.svg" alt="ci testing"></a>
 </div>
 
-A naive implementation of neural network. The code structure is heavily inspired by [PyTorch](https://github.com/pytorch/pytorch) and [TensorFlow](https://github.com/tensorflow/tensorflow). However, this package is used for educational purposes and is not intended to be adopted in production.
+A naive implementation of a neural network. The code structure is heavily inspired by [PyTorch](https://github.com/pytorch/pytorch) and [TensorFlow](https://github.com/tensorflow/tensorflow). However, this package is used for educational purposes and is not intended to be adopted in production.
 
 ## Installation
 
@@ -17,7 +17,7 @@ pip install .
 
 ## Quick Demo
 
-Here is a short example of the usage of `neuralnetwork` components. For the complete demo, please take a look at [`examples/classification.py`](https://github.com/reshalfahsi/neuralnetwork/blob/main/examples/classification.py) and [`notebook/Classification.ipynb`](https://github.com/reshalfahsi/neuralnetwork/blob/main/notebook/Classification.ipynb) for the classification problem. We also provide example for regression problem: [`examples/regression.py`](https://github.com/reshalfahsi/neuralnetwork/blob/main/examples/regression.py) and [`notebook/Regression.ipynb`](https://github.com/reshalfahsi/neuralnetwork/blob/main/notebook/Regression.ipynb).
+Here is a short example of the usage of `neuralnetwork` components. For the complete demo, please take a look at [`examples/classification.py`](https://github.com/reshalfahsi/neuralnetwork/blob/main/examples/classification.py) and [`notebook/Classification.ipynb`](https://github.com/reshalfahsi/neuralnetwork/blob/main/notebook/Classification.ipynb) for the classification problem. We also provide am example for regression problem: [`examples/regression.py`](https://github.com/reshalfahsi/neuralnetwork/blob/main/examples/regression.py) and [`notebook/Regression.ipynb`](https://github.com/reshalfahsi/neuralnetwork/blob/main/notebook/Regression.ipynb).
 
 ```python
 import neuralnetwork.nn as nn
