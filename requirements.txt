@@ -6,7 +6,7 @@ pybind11>=2.6.0
 setuptools>=42
 wheel
 flake8
-black==22.6.0
+black==24.3.0
 click==8.0.4
 interrogate
 
